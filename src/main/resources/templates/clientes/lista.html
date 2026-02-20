@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="layout/base :: html"><!-- llamar al contenidoPrincipal -->
+<div th:fragment="contenidoPrincipal">
+
+    <div class="container mt-4">
+
+        <a th:href="@{/clientes/nuevo}" class="btn btn-primary mb-3">Nuevo Cliente</a>
+
+        <table class="table table-striped" id="tablaClientes">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Email</th>
+                    <th>Cedula</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="cliente : ${clientes}">
+                    <td th:text="${cliente.id}"></td>
+                    <td th:text="${cliente.nombre}"></td>
+                    <td th:text="${cliente.email}"></td>
+                    <td th:text="${cliente.cedula}"></td>
+                    <td>
+                        <a th:href="@{/clientes/editar/{id}(id=${cliente.id})}" 
+                           class="btn btn-warning btn-sm">Editar</a>
+
+                        <a th:href="@{/clientes/eliminar/{id}(id=${cliente.id})}" 
+                           class="btn btn-danger btn-sm"
+                           onclick="return confirm('¿Seguro?')">Eliminar</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+    </div>
+    <script>
+         $(document).ready(function() {
+             $('#tablaClientes').DataTable({
+                 language: {
+                     url: 'https://cdn.datatables.net/plug-ins/1.13.6/i18n/es-ES.json'
+                 },
+                 dom: 'Bfrtip',
+                 buttons: [
+                     'copy', 'csv', 'excel', 'pdf', 'print'
+                 ]
+             });
+         });
+     </script>
+</div>
+
+
+

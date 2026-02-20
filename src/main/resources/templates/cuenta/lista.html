@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="layout/base :: html">
+<div th:fragment="contenidoPrincipal">
+
+    <div class="container mt-4">
+
+        <div class="header mb-4">
+            <h2>Listado de Cuentas</h2>
+            
+            <div class="d-flex gap-2">
+                <a th:href="@{/clientes}" class="btn btn-secondary">
+                    Ver Clientes
+                </a>
+                
+                <a class="btn btn-primary" th:href="@{/cuentas/nuevo}">
+                    + Nueva Cuenta
+                </a>
+            </div>
+        </div>
+
+        <div th:if="${mensaje}" class="alert alert-info" role="alert" th:text="${mensaje}"></div>
+
+        <div class="card">
+            <table class="table table-striped" id="tablaCuentas">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Número</th>
+                        <th class="d-none d-md-table-cell">Tipo</th>
+                        <th>Monto</th>
+                        <th class="d-none d-md-table-cell">Cliente</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+				    <tr th:each="cu : ${cuentas}">
+				        <td th:text="${cu.id} ?: ''"></td>
+				        <td th:text="${cu.numeroCuenta} ?: 'Sin número'"></td>
+				        <td class="d-none d-md-table-cell" th:text="${cu.tipo} ?: 'Sin tipo'"></td>
+				        <td th:text="${cu.montoTotal} ?: '0.00'"></td>
+				        <td class="d-none d-md-table-cell" 
+				            th:text="${cu.cliente != null ? cu.cliente.nombre : 'Sin cliente'}"></td>
+				        <td>
+				            <div class="btn-group" role="group">
+				                <a th:href="@{/cuentas/editar/{id}(id=${cu.id})}" 
+				                   class="btn btn-warning btn-sm">Editar</a>
+				                <a th:href="@{/cuentas/eliminar/{id}(id=${cu.id})}"
+				                   class="btn btn-danger btn-sm"
+				                   onclick="return confirm('¿Eliminar cuenta?')">Eliminar</a>
+				            </div>
+				        </td>
+				    </tr>
+				
+				</tbody>
+            </table>
+        </div>
+
+    </div>
+    
+    <script>
+        $(document).ready(function() {
+            $('#tablaCuentas').DataTable({
+                language: {
+                    url: 'https://cdn.datatables.net/plug-ins/1.13.6/i18n/es-ES.json'
+                },
+                dom: 'Bfrtip',
+                buttons: [
+                    'copy', 'csv', 'excel', 'pdf', 'print'
+                ],
+                responsive: true
+            });
+        });
+    </script>
+</div>

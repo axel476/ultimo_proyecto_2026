@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="layout/base :: html">
+<div th:fragment="contenidoPrincipal">
+
+    <div class="container mt-4">
+
+        <h1 th:text="${cliente.id} ? 'Editar Cliente' : 'Nuevo Cliente'"></h1>
+
+        <form th:action="@{/clientes/guardar}" 
+              th:object="${cliente}" 
+              method="post"
+              id="frm_nuevo_cliente">
+
+            <input type="hidden" th:field="*{id}"/>
+
+            <div class="mb-3">
+                <label>Nombre</label>
+                <input type="text" th:field="*{nombre}" 
+                       class="form-control" id="nombre" name="nombre" required>
+            </div>
+
+            <div class="mb-3">
+                <label>Email</label>
+                <input type="email" th:field="*{email}" 
+                       class="form-control" id="correo" name="correo" required>
+            </div>
+            
+            <div class="mb-3">
+                <label>Cedula</label>
+                <input type="text" th:field="*{cedula}" 
+                       class="form-control" id="correo" name="correo" required>
+            </div>
+
+            <button class="btn btn-success">Guardar</button>
+            <a th:href="@{/clientes}" class="btn btn-secondary">Cancelar</a>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+
+      

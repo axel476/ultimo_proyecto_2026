@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="layout/base :: html">
+<div th:fragment="contenidoPrincipal">
+
+    <div class="container mt-4">
+
+        <div class="topbar mb-4">
+            <h2 class="title" th:text="${cuenta.id} ? 'Editar Cuenta' : 'Nueva Cuenta'"></h2>
+            <a class="btn btn-outline-secondary" th:href="@{/cuentas}">← Volver</a>
+        </div>
+
+        <div class="card">
+            <form th:action="@{/cuentas/guardar}" 
+                  method="post"
+                  id="frm_cuenta">
+
+                <!-- ✅ CLAVE para editar -->
+                <input type="hidden" name="id" th:value="${cuenta.id}"/>
+
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label class="form-label">Número de cuenta *</label>
+                        <input type="text" name="numeroCuenta" 
+                               class="form-control" 
+                               th:value="${cuenta.numeroCuenta}"
+                               placeholder="Ej: 001-1234567890" required>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label">Tipo *</label>
+                        <input type="text" name="tipo" 
+                               class="form-control" 
+                               th:value="${cuenta.tipo}"
+                               placeholder="Ej: Ahorros / Corriente" required>
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label class="form-label">Monto total *</label>
+                        <input type="number" name="montoTotal" 
+                               step="0.01" 
+                               class="form-control" 
+                               th:value="${cuenta.montoTotal}"
+                               placeholder="0.00" required>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label">Cliente *</label>
+                        <select name="clienteId" class="form-select" required>
+                            <option value="">-- Seleccionar cliente --</option>
+                            <option th:each="c : ${clientes}"
+                                    th:value="${c.id}"
+                                    th:text="${c.nombre}"
+                                    th:selected="${cuenta.cliente != null and cuenta.cliente.id == c.id}">
+                            </option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="actions mt-4">
+                    <a th:href="@{/cuentas}" class="btn btn-secondary">Cancelar</a>
+                    <button type="submit" class="btn btn-primary">Guardar</button>
+                </div>
+
+            </form>
+        </div>
+
+    </div>
+
+</div>
